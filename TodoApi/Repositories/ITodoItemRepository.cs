@@ -13,7 +13,7 @@ namespace TodoApi.Repositories
 
         Task<TodoItem> CreateTodoItem(TodoItem todoItem);
 
-        Task<TodoItem?> UpdateTodoItem(Guid Id, UpdateTodoItemDTO todoItem);
+        Task<TodoItem?> UpdateTodoItem(Guid Id, TodoItem todoItem);
 
         Task<TodoItem?> DeleteTodoItem(Guid Id);
 

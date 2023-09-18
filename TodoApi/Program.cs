@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 //using Microsoft.IdentityModel.Tokens;
 using TodoApi.Data;
 using TodoApi.Repositories;
+using TodoApi.Mappings;
 
 //Builder variable for dependency injection and configuration
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,7 @@ builder.Services.AddScoped<ITodoItemRepository, InMemoryTodoItemRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication().AddCookie();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //    .AddJwtBearer(options =>
 //    {

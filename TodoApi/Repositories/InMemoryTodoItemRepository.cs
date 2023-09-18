@@ -43,7 +43,7 @@ namespace TodoApi.Repositories
 
         }
 
-        public async Task<TodoItem?> UpdateTodoItem(Guid Id, UpdateTodoItemDTO todoItem)
+        public async Task<TodoItem?> UpdateTodoItem(Guid Id, TodoItem todoItem)
         {
             var exixtingTodoItem = await _context.TodoItems.FindAsync(Id);
 

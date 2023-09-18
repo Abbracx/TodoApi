@@ -11,6 +11,7 @@ using TodoApi.Models.Domain;
 using TodoApi.Models.DTO;
 using TodoApi.Models;
 using TodoApi.Repositories;
+using AutoMapper;
 
 namespace TodoApi.Controllers
 {
@@ -20,10 +21,12 @@ namespace TodoApi.Controllers
     public class TodoItemsController : ControllerBase
     {
         private readonly ITodoItemRepository _todoItemRepository;
+        private readonly IMapper _mapping;
 
-        public TodoItemsController(TodoContext context, ITodoItemRepository todoItemRepository)
+        public TodoItemsController(TodoContext context, ITodoItemRepository todoItemRepository, IMapper mapping)
         {
             _todoItemRepository = todoItemRepository;
+            _mapping = mapping;
         }
 
         // GET: api/TodoItems
@@ -42,6 +45,7 @@ namespace TodoApi.Controllers
             {
                 todoItemsDTO.Add(ItemToDTO(todoItem));
             }
+            // same as above using LINQ queries
             // var todoItemsToDTO = todoItems.Select((TodoItem x) => ItemToDTO(x));
 
 
@@ -55,7 +59,7 @@ namespace TodoApi.Controllers
         {
 
             var todoItem = await _todoItemRepository.GetTodoItem(id);
-            Console.WriteLine(todoItem);
+
             if (todoItem == null)
             {
                 return NotFound();
@@ -69,8 +73,13 @@ namespace TodoApi.Controllers
         [HttpPut("{id:Guid}")]
         public async Task<IActionResult> PutTodoItem(Guid id, UpdateTodoItemDTO todoDTO)
         {
+            TodoItem todoItem = new TodoItem
+            {
+                Name = todoDTO.Name,
+                IsComplete = todoDTO.IsComplete
+            };
 
-            var UpdatedtodoItem = await _todoItemRepository.UpdateTodoItem(id, todoDTO);
+            var UpdatedtodoItem = await _todoItemRepository.UpdateTodoItem(id, todoItem);
 
             if (UpdatedtodoItem == null) return NotFound();
             return Ok(ItemToDTO(UpdatedtodoItem));
